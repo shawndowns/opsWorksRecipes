@@ -13,6 +13,7 @@ end
 user play_user
 cwd projectDir
 command <<-EOH
+wget #{projectUrl}
 unzip #{projectPackage}.zip
 chmod 0755 #{projectDir}/#{projectPackage}
 EOH
