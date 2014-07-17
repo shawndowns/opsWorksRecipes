@@ -1,35 +1,29 @@
-play2Home       = node[:play2][:home]
-destinationName = "play-#{node[:play2][:version]}"
-play_user = node[:play2][:user]
-zipName         = destinationName+".zip"
-destinationPath = play2Home+"/"+destinationName 
-archiveFile     = play2Home+"/"+zipName
+projectDir 		    = "/opt/#{node[:play][:project]}"
+projectPackage      = "#{node[:play][:project]}-#{node[:play][:version]}"
+gitHubURL           = node[:play][:url]
+projectUrl          = gitHubURL + "/" + projectPackage + ".zip?raw=true"
+play_user           = node[:play][:user]
 
-package "zip"
-package "unzip"
-
-directory play2Home do
+directory projectDir do
   action :create
   owner play_user
   mode 0755
 end
 
-execute "install-play2" do
+execute "install-project" do
     user play_user
-    cwd play2Home
+    cwd projectDir
     command <<-EOH
-    unzip play-#{node[:play2][:version]}.zip
-    ln -sf #{destinationPath}/play /usr/bin/play
-    chmod 0755 #{destinationPath}/play
+    unzip #{projectPackage}.zip?raw=true
+    chmod 0755 #{projectDir}/#{projectPackage}
     EOH
     action :nothing
 end
 
-remote_file "#{play2Home}/play-#{node[:play2][:version]}.zip" do
-    source node[:play2][:url]+node[:play2][:version]+"/#{zipName}"
-    checksum node[:play2][:checksum]
+remote_file "#{projectUrl}" do
+    source projectUrl
     owner play_user
     mode "0644"
-    notifies :run, "execute[install-play2]", :immediately
+    notifies :run, "execute[install-project]", :immediately
     action :create_if_missing
 end
