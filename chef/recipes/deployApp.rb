@@ -20,7 +20,7 @@ execute "install-project" do
     action :nothing
 end
 
-remote_file "#{projectUrl}" do
+remote_file "#{projectDir}/#{projectPackage}.zip" do
     source projectUrl
     owner play_user
     mode "0644"
