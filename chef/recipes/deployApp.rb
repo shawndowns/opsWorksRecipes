@@ -11,8 +11,8 @@ directory projectDir do
 end
 
 user play_user
-cwd projectDir
 command <<-EOH
+cd #{projectDir}
 wget #{projectUrl}
 unzip #{projectPackage}.zip
 chmod 0755 #{projectDir}/#{projectPackage}
