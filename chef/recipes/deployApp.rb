@@ -1,7 +1,7 @@
 projectDir 		    = "/opt/#{node[:play][:project]}"
 projectPackage      = "#{node[:play][:project]}-#{node[:play][:version]}"
 gitHubURL           = node[:play][:url]
-projectUrl          = gitHubURL + "/" + projectPackage + ".zip"
+projectUrl          = gitHubURL + "/" + projectPackage + ".zip?raw=true"
 play_user           = node[:play][:user]
 
 directory projectDir do
