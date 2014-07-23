@@ -27,3 +27,12 @@ remote_file "#{projectDir}/#{projectPackage}.zip" do
     notifies :run, "execute[install-project]", :immediately
     action :create_if_missing
 end
+
+template 's3cmd configuration' do
+  path ::File.join(node['s3']['cfgDir'], ".s3cfg")
+  source 's3cfg.erb'
+  owner play_user
+  group play_user
+  mode 0644
+  backup false
+end
