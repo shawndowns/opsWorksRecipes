@@ -29,11 +29,9 @@ remote_file "#{projectDir}/#{projectPackage}.zip" do
     action :create_if_missing
 end
 
-template '#{s3cfgDir}/.s3cfg' do
+template '/home/ubuntu/.s3cfg' do
   source 's3cfg.erb'
   owner play_user
   group play_user
   mode 0644
-  backup false
-  action :create
 end
