@@ -29,8 +29,7 @@ remote_file "#{projectDir}/#{projectPackage}.zip" do
     action :create_if_missing
 end
 
-template 's3cmd configuration' do
-  path "#{node[:s3][:cfgDir]}/.s3cfg")
+template '#{node[:s3][:cfgDir]}/.s3cfg' do
   source 's3cfg.erb'
   owner play_user
   group play_user
