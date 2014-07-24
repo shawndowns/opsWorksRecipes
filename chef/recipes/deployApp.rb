@@ -15,23 +15,22 @@ execute "install-project" do
     user play_user
     cwd projectDir
     command <<-EOH
+    sudo s3cmd get s3://reactiveblue/#{projectPackage}.zip #{projectPackage}.zip
     unzip #{projectPackage}.zip
     chmod 0755 #{projectDir}/#{projectPackage}
     EOH
     action :nothing
 end
 
-remote_file "#{projectDir}/#{projectPackage}.zip" do
-    source projectUrl
-    owner play_user
-    mode "0644"
-    notifies :run, "execute[install-project]", :immediately
-    action :create_if_missing
-end
-
 template '/home/ubuntu/.s3cfg' do
   source 's3cfg.erb'
   owner play_user
   group play_user
+  variables({
+     :accessKey => node[:s3][:accessKey],
+     :secretKey => node[:s3][:secretKey],
+     :passphrase => node[:s3][:passphrase]
+  })
+  #notifies :run, "execute[install-project]", :immediately
   mode 0644
 end
