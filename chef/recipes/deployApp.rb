@@ -31,6 +31,6 @@ template '/home/ubuntu/.s3cfg' do
      :secretKey => node[:s3][:secretKey],
      :passphrase => node[:s3][:passphrase]
   })
-  #notifies :run, "execute[install-project]", :immediately
+  notifies :run, "execute[install-project]", :immediately
   mode 0644
 end
