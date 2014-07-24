@@ -11,6 +11,24 @@ directory projectDir do
   mode 0755
 end
 
+execute "install-project" do
+    user play_user
+    cwd projectDir
+    command <<-EOH
+    unzip #{projectPackage}.zip
+    chmod 0755 #{projectDir}/#{projectPackage}
+    EOH
+    action :nothing
+end
+
+remote_file "#{projectDir}/#{projectPackage}.zip" do
+    source projectUrl
+    owner play_user
+    mode "0644"
+    notifies :run, "execute[install-project]", :immediately
+    action :create_if_missing
+end
+
 template '/home/ubuntu/.s3cfg' do
   source 's3cfg.erb'
   owner play_user
