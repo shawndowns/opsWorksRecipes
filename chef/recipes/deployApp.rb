@@ -3,6 +3,7 @@ projectPackage      = "#{node[:play][:project]}-#{node[:play][:version]}"
 gitHubURL           = node[:play][:url]
 projectUrl          = gitHubURL + "/" + projectPackage + ".zip?raw=true"
 play_user           = node[:play][:user]
+s3cfgDir            = 
 
 directory projectDir do
   action :create
@@ -29,7 +30,7 @@ remote_file "#{projectDir}/#{projectPackage}.zip" do
 end
 
 template 's3cmd configuration' do
-  path "#{node['s3']['cfgDir']}/.s3cfg")
+  path "#{node[:s3][:cfgDir]}/.s3cfg")
   source 's3cfg.erb'
   owner play_user
   group play_user
