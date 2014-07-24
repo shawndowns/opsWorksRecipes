@@ -35,4 +35,5 @@ template 's3cmd configuration' do
   group play_user
   mode 0644
   backup false
+  action :create_if_missing
 end
