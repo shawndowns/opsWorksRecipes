@@ -20,6 +20,15 @@ execute "install-project" do
     action :nothing
 end
 
+execute "start-project" do
+    user play_user
+    command <<-EOH
+    sudo service #{node[:play][:project]} start
+    EOH
+    action :nothing
+end
+
+
 template '/root/.s3cfg' do
   source 's3cfg.erb'
   owner play_user
@@ -30,5 +39,16 @@ template '/root/.s3cfg' do
      :passphrase => node[:s3][:passphrase]
   })
   notifies :run, "execute[install-project]", :immediately
+  mode 0644
+end
+
+template '/etc/init/#{node[:play][:project]}.conf' do
+  source 'init.conf.erb'
+  owner play_user
+  group play_user
+  variables({
+     :projectName => node[:play][:project],
+     :projectVersion => node[:play][:version]
+  })
   mode 0644
 end
