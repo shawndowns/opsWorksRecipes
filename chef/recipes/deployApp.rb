@@ -13,14 +13,14 @@ execute "install-project" do
     user play_user
     cwd projectDir
     command <<-EOH
-    s3cmd get s3://reactiveblue/#{projectPackage}.zip #{projectPackage}.zip
+    sudo s3cmd get s3://reactiveblue/#{projectPackage}.zip #{projectPackage}.zip
     unzip #{projectPackage}.zip
     chmod 0755 #{projectDir}/#{projectPackage}
     EOH
     action :nothing
 end
 
-template '/home/ubuntu/.s3cfg' do
+template '/root/.s3cfg' do
   source 's3cfg.erb'
   owner play_user
   group play_user
