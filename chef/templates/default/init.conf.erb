@@ -1,4 +1,4 @@
-env DAEMON=/opt/<%= @projectName %>/<%= @projectName %>-<%= @projectVersion %>/bin/thirdpartydemo
+env DAEMON=/opt/<%= @projectName %>/<%= @projectName %>-<%= @projectVersion %>/bin/<%= @projectName %>
 env PID=/opt/<%= @projectName %>/<%= @projectName %>-<%= @projectVersion %>/RUNNING_PID
 
 start on (filesystem and net-device-up IFACE=lo)

@@ -42,7 +42,7 @@ template '/root/.s3cfg' do
   mode 0644
 end
 
-template '/etc/init/#{node[:play][:project]}.conf' do
+template "/etc/init/#{node[:play][:project]}.conf" do
   source 'init.conf.erb'
   owner play_user
   group play_user
@@ -50,5 +50,6 @@ template '/etc/init/#{node[:play][:project]}.conf' do
      :projectName => node[:play][:project],
      :projectVersion => node[:play][:version]
   })
+  notifies :run, "execute[start-project]", :immediately
   mode 0644
 end
