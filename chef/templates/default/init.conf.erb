@@ -9,4 +9,4 @@ pre-start script
   test -f $DAEMON || { stop ; exit 0; }
 end script
 
-exec $DAEMON -J-server
+exec $DAEMON -mem 512 -J-server
