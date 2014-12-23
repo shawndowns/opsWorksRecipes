@@ -49,7 +49,7 @@ template "/etc/init/#{node[:play][:project]}.conf" do
   variables({
      :projectName => node[:play][:project],
      :projectVersion => node[:play][:version],
-     :sendgrid_username => node[:sendgrid][:username]
+     :sendgrid_username => node[:sendgrid][:username],
      :sendgrid_password => node[:sendgrid][:password]
   })
   notifies :run, "execute[start-project]", :immediately
