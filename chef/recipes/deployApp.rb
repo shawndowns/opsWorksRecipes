@@ -48,7 +48,9 @@ template "/etc/init/#{node[:play][:project]}.conf" do
   group play_user
   variables({
      :projectName => node[:play][:project],
-     :projectVersion => node[:play][:version]
+     :projectVersion => node[:play][:version],
+     :sendgrid_username => node[:sendgrid][:username]
+     :sendgrid_password => node[:sendgrid][:password]
   })
   notifies :run, "execute[start-project]", :immediately
   mode 0644

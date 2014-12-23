@@ -9,4 +9,4 @@ pre-start script
   test -f $DAEMON || { stop ; exit 0; }
 end script
 
-exec $DAEMON -mem 512 -J-server
+exec $DAEMON -mem 512 -J-server -Dsendgrid.username=<%= @sendgrid_username %> -Dsendgrid.password=<%= @sendgrid_password %>
