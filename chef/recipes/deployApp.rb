@@ -1,4 +1,5 @@
-projectDir 		    = "/opt/#{node[:play][:project]}"
+projectDir          = "/opt/#{node[:play][:project]}"
+projectPath         = "#{node[:s3][:path]}"
 projectPackage      = "#{node[:play][:project]}-#{node[:play][:version]}"
 play_user           = node[:play][:user]
 s3cfgDir            = node[:s3][:cfgDir]
