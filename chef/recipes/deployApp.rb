@@ -14,7 +14,7 @@ execute "install-project" do
     user play_user
     cwd projectDir
     command <<-EOH
-    sudo s3cmd get s3://reactiveblue/#{projectPackage}.zip #{projectPackage}.zip
+    sudo s3cmd get s3://#{projectPath}/#{projectPackage}.zip #{projectPackage}.zip
     unzip #{projectPackage}.zip
     chmod 0755 #{projectDir}/#{projectPackage}
     EOH
