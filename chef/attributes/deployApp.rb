@@ -6,5 +6,4 @@ default['s3']['accessKey'] = '' #accessKey needs to be provided
 default['s3']['secretKey'] = '' #secretKey needs to be provided
 default['s3']['passphrase'] = '' #passphrase needs to be provided
 default['s3']['cfgDir'] = '/home/ubuntu'
-default['sendgrid']['username'] = ''
-default['sendgrid']['password'] = ''
+default['env']

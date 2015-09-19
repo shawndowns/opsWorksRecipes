@@ -50,8 +50,7 @@ template "/etc/init/#{node[:play][:project]}.conf" do
   variables({
      :projectName => node[:play][:project],
      :projectVersion => node[:play][:version],
-     :sendgrid_username => node[:sendgrid][:username],
-     :sendgrid_password => node[:sendgrid][:password]
+     :env => node[:env]
   })
   notifies :run, "execute[start-project]", :immediately
   mode 0644
