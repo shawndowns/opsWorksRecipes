@@ -20,7 +20,7 @@ node['java']['openjdk_packages'] # Array of OpenJDK package names to install in 
 node['java']['tarball'] # Name of the tarball to retrieve from your internal repository, default jdk1.6.0_29_i386.tar.gz
 node['java']['tarball_checksum'] # Checksum for the tarball, if you use a different tarball, you also need to create a new sha256 checksum
 node['java']['jdk'] # Version and architecture specific attributes for setting the URL on Oracle's site for the JDK, and the checksum of the .tar.gz.
-node['java']['oracle']['accept_oracle_download_terms'] # Indicates that you accept Oracle's EULA
+node['java']['oracle']['accept_oracle_download_terms'] = "true" # Indicates that you accept Oracle's EULA
 node['java']['windows']['url'] # The internal location of your java install for windows
 node['java']['windows']['package_name'] # The package name used by windows_package to check in the registry to determine if the install has already been run
 node['java']['windows']['checksum'] # The checksum for the package to download on Windows machines (default is nil, which does not perform checksum validation)
