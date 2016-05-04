@@ -7,3 +7,7 @@ default['s3']['secretKey'] = '' #secretKey needs to be provided
 default['s3']['passphrase'] = '' #passphrase needs to be provided
 default['s3']['cfgDir'] = '/home/ubuntu'
 default['env']
+
+default["java"]["install_flavor"] = "oracle"
+default["java"]["jdk_version"] = "8"
+default["java"]["oracle"]["accept_oracle_download_terms"] = true

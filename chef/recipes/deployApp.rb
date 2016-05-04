@@ -1,3 +1,5 @@
+include_recipe 'java'
+
 projectDir          = "/opt/#{node[:play][:project]}"
 projectPath         = "#{node[:s3][:path]}"
 projectPackage      = "#{node[:play][:project]}-#{node[:play][:version]}"
