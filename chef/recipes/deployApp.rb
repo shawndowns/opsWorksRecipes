@@ -1,26 +1,34 @@
 include_recipe 'java'
+include_recipe 'zip'
 
-projectDir          = "/opt/#{node[:play][:project]}"
-projectPath         = "#{node[:s3][:path]}"
-projectPackage      = "#{node[:play][:project]}-#{node[:play][:version]}"
-play_user           = node[:play][:user]
-s3cfgDir            = node[:s3][:cfgDir]
+projectPackage      = "#{node[:dist][:project]}#{node[:dist][:version]}"
 
-directory projectDir do
+remote_file '/tmp/#{projectPackage}.zip' do
+  source '#{node[:dist][:path]}/#{projectPackage}.zip'
+  mode '0755'
   action :create
-  owner play_user
-  mode 0755
+  notifies :run, "execute[unzip]", :immediately
 end
 
-execute "install-project" do
-    user play_user
-    cwd projectDir
-    command <<-EOH
-    sudo s3cmd get s3://#{projectPath}/#{projectPackage}.zip #{projectPackage}.zip
-    unzip #{projectPackage}.zip
-    chmod 0755 #{projectDir}/#{projectPackage}
-    EOH
-    action :nothing
+execute "unzip" do
+  user node[:dist][:user]
+  group node[:dist][:user]
+  cwd node[:dist][:dir]
+  action :nothing
+  command "unzip /tmp/#{projectPackage}.zip"
+end
+
+template "/etc/init/#{node[:dist][:project]}.conf" do
+  source 'init.conf.erb'
+  owner node[:dist][:user]
+  group node[:dist][:user]
+  variables({
+     :projectName => node[:play][:project],
+     :projectVersion => node[:play][:version],
+     :env => node[:env]
+  })
+  notifies :run, "execute[start-project]", :immediately
+  mode 0644
 end
 
 execute "start-project" do
@@ -29,31 +37,4 @@ execute "start-project" do
     sudo service #{node[:play][:project]} start
     EOH
     action :nothing
-end
-
-
-template '/root/.s3cfg' do
-  source 's3cfg.erb'
-  owner play_user
-  group play_user
-  variables({
-     :accessKey => node[:s3][:accessKey],
-     :secretKey => node[:s3][:secretKey],
-     :passphrase => node[:s3][:passphrase]
-  })
-  notifies :run, "execute[install-project]", :immediately
-  mode 0644
-end
-
-template "/etc/init/#{node[:play][:project]}.conf" do
-  source 'init.conf.erb'
-  owner play_user
-  group play_user
-  variables({
-     :projectName => node[:play][:project],
-     :projectVersion => node[:play][:version],
-     :env => node[:env]
-  })
-  notifies :run, "execute[start-project]", :immediately
-  mode 0644
 end
