@@ -1,5 +1,5 @@
-env DAEMON=/opt/<%= @projectName %>-<%= @projectVersion %>/bin/<%= @projectName %>
-env PID=/opt/<%= @projectName %>-<%= @projectVersion %>/RUNNING_PID
+env DAEMON=/opt/<%= @projectName %><%= @projectVersion %>/bin/<%= @projectName %>
+env PID=/opt/<%= @projectName %><%= @projectVersion %>/RUNNING_PID
 
 start on (filesystem and net-device-up IFACE=lo)
 stop on runlevel [!2345]

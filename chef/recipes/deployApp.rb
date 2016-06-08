@@ -3,8 +3,8 @@ include_recipe 'zip'
 
 projectPackage      = "#{node[:dist][:project]}#{node[:dist][:version]}"
 
-remote_file '/tmp/#{projectPackage}.zip' do
-  source '#{node[:dist][:path]}/#{projectPackage}.zip'
+remote_file "/tmp/#{projectPackage}.zip" do
+  source "#{node[:dist][:path]}/#{projectPackage}.zip"
   mode '0755'
   action :create
   notifies :run, "execute[unzip]", :immediately
@@ -23,8 +23,8 @@ template "/etc/init/#{node[:dist][:project]}.conf" do
   owner node[:dist][:user]
   group node[:dist][:user]
   variables({
-     :projectName => node[:play][:project],
-     :projectVersion => node[:play][:version],
+     :projectName => node[:dist][:project],
+     :projectVersion => node[:dist][:version],
      :env => node[:env]
   })
   notifies :run, "execute[start-project]", :immediately
@@ -32,9 +32,8 @@ template "/etc/init/#{node[:dist][:project]}.conf" do
 end
 
 execute "start-project" do
-    user play_user
     command <<-EOH
-    sudo service #{node[:play][:project]} start
+    sudo service #{node[:dist][:project]} start
     EOH
     action :nothing
 end
